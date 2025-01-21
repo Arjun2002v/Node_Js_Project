@@ -1,6 +1,8 @@
 // Importing necessary modules
 import { dir } from "console"; // Unnecessary import; can be removed if not used
 import express from "express"; // Importing the Express framework
+import authRoutes from "./Routes/authRoutes.js";
+import todoRoutes from "./Routes/todoRoutes.js";
 
 // Importing `path` for working with file and directory paths
 import path, { dirname } from "path";
@@ -17,11 +19,18 @@ const PORT = process.env.PORT || 1919;
 const __filename = fileURLToPath(import.meta.url); // Full path to the current file
 const __dirname = dirname(__filename); // Directory name of the current file
 
+app.use(express.static(path.join(__dirname, "../publics")));
+
 // Route for handling GET requests to the root ("/")
 app.get("/", (req, res) => {
   // Sends the `index.html` file located in the `publics` folder
   res.sendFile(path.join(__dirname, "publics", "index.html"));
 });
+
+//Routes
+
+app.use("/auth", authRoutes);
+app.use("/todo", todoRoutes);
 
 // Starts the server and listens for incoming requests on the specified PORT
 app.listen(PORT, () => {
