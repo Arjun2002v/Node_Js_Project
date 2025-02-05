@@ -1,29 +1,26 @@
-import exp from "constants";
-import { DatabaseSync } from "node:sqlite";
 
-const db = new DatabaseSync(":memory:");
+import {DatabaseSync} from 'node:sqlite' 
 
-//Execute Sql from strings
+//Creating our DB to store the Data
+const db = new DatabaseSync(':memory:')
 
-//1. Table for User
+//Executing the SQL from string from Excel Sheets etc
+
+//1.Table for user 
 db.exec(`
     CREATE TABLE user(
 
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user TEXT UNIQUE,
-    password TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT, // for every todo there will be a specific user 
+    username TEXT UNIQUE,
+    password TEXT 
+    )`)
 
-    )`);
-
-//2.Table for Todo's
+//2.Table for Todo
 db.exec(`
-        CREATE TABLE todos(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        task text,
-        completed BOOLEAN DEFAULT 0,
-        FOREIGN KEY(user_id)
+    CREATE TABLE todo(
+    id INTEGER,
+    user_id INTEGER
+    )`)
 
-        )`);
 
 export default db;

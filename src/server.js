@@ -11,6 +11,10 @@ import { fileURLToPath } from "url"; // For resolving module file paths
 // Initializing an Express application
 const app = express();
 
+//MiddleWare
+
+app.use(express.json())
+
 // Setting the PORT to either the value from the environment variable or 1919
 const PORT = process.env.PORT || 1919;
 
