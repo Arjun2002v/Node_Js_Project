@@ -1,42 +1,28 @@
-// Importing necessary modules
-import { dir } from "console"; // Unnecessary import; can be removed if not used
-import express from "express"; // Importing the Express framework
-import authRoutes from "./Routes/authRoutes.js";
-import todoRoutes from "./Routes/todoRoutes.js";
+import express from "express"; // Import Express.js framework
+import path, { dirname } from "path"; // Import path module to work with file paths
+import { fileURLToPath } from "url"; // Convert URL to file path (needed for ES modules)
 
-// Importing `path` for working with file and directory paths
-import path, { dirname } from "path";
-import { fileURLToPath } from "url"; // For resolving module file paths
-
-// Initializing an Express application
+// Initialize Express application
 const app = express();
 
-//MiddleWare
+// Define the port (use environment variable if available, otherwise default to 5000)
+const PORT = process.env.PORT || 5000;
 
-app.use(express.json())
+// Get the current module's file path
+const __filename = fileURLToPath(import.meta.url);
 
-// Setting the PORT to either the value from the environment variable or 1919
-const PORT = process.env.PORT || 1919;
+// Get the directory name of the current module
+const __dirname = dirname(__filename);
 
-// Determining the current file's full path (__filename) and its directory (__dirname)
-// `fileURLToPath` converts the `import.meta.url` into a file path
-const __filename = fileURLToPath(import.meta.url); // Full path to the current file
-const __dirname = dirname(__filename); // Directory name of the current file
+// Middleware: Serve static files from the "public" folder
+app.use(express.static(path.join(__dirname, "../public")));
 
-app.use(express.static(path.join(__dirname, "../publics")));
-
-// Route for handling GET requests to the root ("/")
+// Define a route to serve the "index.html" file when the user accesses "/"
 app.get("/", (req, res) => {
-  // Sends the `index.html` file located in the `publics` folder
-  res.sendFile(path.join(__dirname, "publics", "index.html"));
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-//Routes
-
-app.use("/auth", authRoutes);
-app.use("/todo", todoRoutes);
-
-// Starts the server and listens for incoming requests on the specified PORT
+// Start the server and listen on the defined PORT
 app.listen(PORT, () => {
-  console.log("Server Started"); // Logs a confirmation message to the console
+  console.log(`Hi you are running in the PORT ${PORT}`);
 });
