@@ -1,33 +1,43 @@
-import express, { Router } from "express";
+import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../db";
 
 const router = express.Router();
 
+//For Registering with UserName and PASSWORD
+
 router.post("/register", (req, res) => {
-  const { username, password } = req.body;
+  const { userName, password } = req.body;
+  console.log(userName, password);
+  res.sendStatus(201);
 
-  //encrypt the password
-  const hacked = bcrypt.hashSync(password, 8);
+  try {
+    //Insert the user to the DB
+    const insertUser = db.prepare(
+      `INSERT INTO users(username,password) VALUES(?,?)`
+    );
+    const result = insertUser.run(userName, hasdedPass);
 
-  // save the user and update ie to insert the value to the
-  const update_user = db.prepare(`INSERT into user(user,password) VALUES(?,?)`);
-  const result = update_user.run(username, hacked);
+    // Default todo
+    const defTodo = `Add your First Todo`;
+    const insertTodo = db.prepare(`INSERT INTO todo(user_id,task)VALUES(?,?)`);
+    insertTodo.run(result.lastInsertRowid, defTodo);
 
-  // after register they need to add their todo tasks
-  const todo = `Add your Todo`;
-  const add_todo = db.prepare(`INSERT into todos(user_id,task) VALUES(?,?)`);
-  add_todo.run(result.lastInsertRowid, todo);
+    //create a token
+    const token = jwt.sign(
+      { id: result.lastInsertRowid },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+    res.json({ token });
+  } catch (error) {
+    console.log(error.message);
+  }
 
-  //create a token
-  const token = jwt.sign(
-    { id: result, lastInsertRowid },
-    process.env.JWT_SECRET,
-    { expiresIn: "24h" }
-  );
+  //To Encrypt the password
+  const hasdedPass = bcrypt.hashSync(password, 8);
 });
+router.post("/login", (req, res) => {}); //For Login the users
 
-router.post("/login", (req, res) => {});
-
-export default Router;
+export default router;

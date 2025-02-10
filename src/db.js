@@ -1,26 +1,25 @@
+import { DatabaseSync } from "node:sqlite"; // Import SQLite's synchronous database module
 
-import {DatabaseSync} from 'node:sqlite' 
+// 🔹 Creating an in-memory SQLite database (temporary, erased when the server restarts)
+const db = new DatabaseSync(":memory:");
 
-//Creating our DB to store the Data
-const db = new DatabaseSync(':memory:')
-
-//Executing the SQL from string from Excel Sheets etc
-
-//1.Table for user 
+// 🔹 Creating a "user" table to store user data
 db.exec(`
     CREATE TABLE user(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each user (auto-increments)
+        username TEXT UNIQUE,                  -- Each user must have a unique username
+        password TEXT                           -- Password stored as plain text (⚠️ Not secure, use hashing!)
+    )`);
 
-    id INTEGER PRIMARY KEY AUTOINCREMENT, // for every todo there will be a specific user 
-    username TEXT UNIQUE,
-    password TEXT 
-    )`)
-
-//2.Table for Todo
+// 🔹 Creating a "todo" table to store tasks related to users
 db.exec(`
     CREATE TABLE todo(
-    id INTEGER,
-    user_id INTEGER
-    )`)
+        id INTEGER,                             -- Unique ID for each task
+        user_id INTEGER,                        -- Foreign key linking the task to a user
+        task TEXT,                              -- Task description
+        completed BOOLEAN DEFAULT 0,            -- Boolean flag (0 = not completed, 1 = completed)
+        FOREIGN KEY(user_id) REFERENCES user(id) -- Ensures tasks are linked to a valid user
+    )`);
 
-
+// 🔹 Exporting the database instance so other files can use it
 export default db;

@@ -1,26 +1,21 @@
-### GET Request
+### GET
 
-GET http://localhost:1919/api                
+GET  http://localhost:5000/todo
 
+### REGISTER NEW USERS WITH USERNAME AND PASSWORD
 
-### Request for  Register  a user AUTH/REGISTER
-
-POST  http://localhost:1919/auth/register
-
-Content-Type: application/application/json
-
+POST http://localhost:5000/auth/register
+Content-Type:  application/json
 {
-    "username":"arjun@gmail.com",
-    "password":"1234"
+    "userName":"arjun",
+    "password":"arjun@gmail.com"
 }
 
-### Request for Login AUTH.LOGIN
+### LOGIN THE EXISTING USER WITH USERNAME AND PASSWORD
 
-POST   http://localhost:1919/auth/login
-
+POST http://localhost:5000/auth/login
 Content-Type: application/json
-
 {
-    "username":"arjun@gmail.com",
-    "password":"1234"
+    "userName":"",
+    "password":""
 }

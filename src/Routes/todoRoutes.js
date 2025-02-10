@@ -1,19 +1,18 @@
-import { Router } from "express";
-import bcrypt from "bcryptjs";
+import express from "express";
 import db from "../db";
 
 const router = express.Router();
 
-//Get Requests for getting all the tasks from the user
-
+// Get the Todos for the users
 router.get("/", (req, res) => {});
 
-//create a new todo
-
+//Create a new Todo
 router.post("/", (req, res) => {});
 
-//Update the rodo
+//To Update an existing Todo
+router.put("/:id", (req, res) => {});
 
-router.put();
+//To delete a todo from the user
+router.delete("/:id", (req, res) => {});
 
-export default Router;
+export default router;

@@ -1,6 +1,8 @@
 import express from "express"; // Import Express.js framework
 import path, { dirname } from "path"; // Import path module to work with file paths
 import { fileURLToPath } from "url"; // Convert URL to file path (needed for ES modules)
+import authRoutes from "./Routes/authRoutes.js";
+import todoRoutes from "./Routes/todoRoutes.js";
 
 // Initialize Express application
 const app = express();
@@ -16,6 +18,12 @@ const __dirname = dirname(__filename);
 
 // Middleware: Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, "../public")));
+
+//Routes for authentications
+app.use("/auth", authRoutes);
+
+//Route for Todos
+app.use("/todos", todoRoutes);
 
 // Define a route to serve the "index.html" file when the user accesses "/"
 app.get("/", (req, res) => {
