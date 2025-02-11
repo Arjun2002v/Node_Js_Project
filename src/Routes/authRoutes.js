@@ -38,6 +38,37 @@ router.post("/register", (req, res) => {
   //To Encrypt the password
   const hasdedPass = bcrypt.hashSync(password, 8);
 });
-router.post("/login", (req, res) => {}); //For Login the users
+router.post("/login", (req, res) => {
+  //Destructuring the userName and password coming from the front-end
+  const { userName, password } = req.body;
+
+  try {
+    //Checking out if the current user existing in the db
+    const getUser = db.prepare(`SELECT * FROM user WHERE username=?`);
+    const newUser = getUser.get(userName);
+    if (!newUser) {
+      return res.sendStatus(404).send({ message: "User Not Available" });
+    }
+
+    //Comparing the password stored as token wiht the password typed by the user
+    const newPass = bcrypt.compareSync(password, newUser.password);
+    if (!newPass) {
+      return res
+        .sendStatus(404)
+        .send({ message: "Password incorrect or not found " });
+    }
+    //if it manages to pass through this then user and password is valid
+
+    //Creating a token for a new user
+
+    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+    res.json({ token });
+  } catch (err) {
+    console.log(err.message);
+    res.sendStatus(501);
+  }
+}); //For Login the users
 
 export default router;
