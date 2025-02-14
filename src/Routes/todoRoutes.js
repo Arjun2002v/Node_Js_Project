@@ -3,20 +3,33 @@ import db from "../db";
 
 const router = express.Router();
 
-// Get the Todos for the users and send it back to the user
+// Get all todos route
+// This endpoint retrieves all todos from the database
 router.get("/", (req, res) => {
+  // Prepare SQL query to select all todos
   const getTodo = db.prepare(`SELECT * FROM todos`);
+  // Execute the query with user ID and get all results
   const todos = getTodo.all(req.userId);
-  res.json(todos); // send the response to the frontend
+  // Send todos as JSON response to the client
+  res.json(todos);
 });
 
-//Create a new Todo
-router.post("/", (req, res) => {});
+// Create new todo route
+// This endpoint handles creation of new todos
+router.post("/", (req, res) => {
+  // TODO: Implement todo creation logic
+});
 
-//To Update an existing Todo
-router.put("/:id", (req, res) => {});
+// Update existing todo route
+// This endpoint updates a specific todo by ID
+router.put("/:id", (req, res) => {
+  // TODO: Implement todo update logic
+});
 
-//To delete a todo from the user
-router.delete("/:id", (req, res) => {});
+// Delete todo route
+// This endpoint removes a specific todo by ID
+router.delete("/:id", (req, res) => {
+  // TODO: Implement todo deletion logic
+});
 
 export default router;
