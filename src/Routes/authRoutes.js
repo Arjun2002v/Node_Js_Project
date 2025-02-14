@@ -8,6 +8,7 @@ const router = express.Router();
 //For Registering with UserName and PASSWORD
 
 router.post("/register", (req, res) => {
+  //getting user from the front-end
   const { userName, password } = req.body;
   console.log(userName, password);
   res.sendStatus(201);
@@ -38,6 +39,7 @@ router.post("/register", (req, res) => {
   //To Encrypt the password
   const hasdedPass = bcrypt.hashSync(password, 8);
 });
+
 router.post("/login", (req, res) => {
   //Destructuring the userName and password coming from the front-end
   const { userName, password } = req.body;
@@ -51,6 +53,7 @@ router.post("/login", (req, res) => {
     }
 
     //Comparing the password stored as token wiht the password typed by the user
+
     const newPass = bcrypt.compareSync(password, newUser.password);
     if (!newPass) {
       return res

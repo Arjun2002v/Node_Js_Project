@@ -3,6 +3,7 @@ import path, { dirname } from "path"; // Import path module to work with file pa
 import { fileURLToPath } from "url"; // Convert URL to file path (needed for ES modules)
 import authRoutes from "./Routes/authRoutes.js";
 import todoRoutes from "./Routes/todoRoutes.js";
+import authMiddleWare from "./Middleware/auth.js";
 
 // Initialize Express application
 const app = express();
@@ -23,7 +24,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/auth", authRoutes);
 
 //Route for Todos
-app.use("/todos", todoRoutes);
+app.use("/todos", authMiddleWare, todoRoutes);
 
 // Define a route to serve the "index.html" file when the user accesses "/"
 app.get("/", (req, res) => {
