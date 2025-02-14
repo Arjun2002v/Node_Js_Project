@@ -43,7 +43,6 @@ router.post("/register", (req, res) => {
 
   // NOTE: This password hashing should be moved inside try block
   // before database operations
-  const hasdedPass = bcrypt.hashSync(password, 8);
 });
 
 router.post("/login", (req, res) => {
