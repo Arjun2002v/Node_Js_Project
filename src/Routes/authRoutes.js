@@ -34,7 +34,7 @@ router.post("/register", (req, res) => {
     const token = jwt.sign(
       { id: result.lastInsertRowid },
       process.env.JWT_SECRET,
-      { expiresIn: "24h" }
+      { expiresIn: "1h" }
     );
     res.json({ token });
   } catch (error) {
