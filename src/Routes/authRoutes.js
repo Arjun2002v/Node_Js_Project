@@ -77,3 +77,10 @@ router.post("/login", (req, res) => {
 }); //For Login the users
 
 export default router;
+
+router.post("/login", (req, res) => {
+  const { userName, password } = req.body;
+
+  const user = db.prepare(`SELECT INTO user WHERE username=? `);
+  const getUser = user.run(userName, password);
+});

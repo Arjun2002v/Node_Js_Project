@@ -33,3 +33,9 @@ router.delete("/:id", (req, res) => {
 });
 
 export default router;
+
+router.get("/", (req, res) => {
+  const todo = db.prepare(`SELECT * FROM todo`);
+  const get = todo.all(req.id);
+  res.json(get);
+});

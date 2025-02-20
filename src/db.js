@@ -7,7 +7,7 @@ const db = new DatabaseSync(":memory:");
 db.exec(`
     CREATE TABLE user(
         id INTEGER PRIMARY KEY AUTOINCREMENT,  -- Unique ID for each user (auto-increments)
-        username TEXT UNIQUE,                  -- Each user must have a unique username
+        username TEXT UNIQUE,                  -- Each user must have a unique usernamegit 
         password TEXT                           -- Password stored as plain text (⚠️ Not secure, use hashing!)
     )`);
 
