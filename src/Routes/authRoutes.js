@@ -77,3 +77,13 @@ router.post("/login", (req, res) => {
 }); //For Login the users
 
 export default router;
+
+router.post("/", (req, res) => {
+  const { user, pass } = req.body;
+  const people = db.prepare(`INSERT INTO user(username,password) VALUES (?,?)`);
+
+  const hashed = bcrypt.compareSync(pass, 10);
+  const insert = people.run(user, hashed);
+
+  const token = jwt.sign({ id: insert.id }, { expiresIn: "1h" });
+});
